@@ -9,7 +9,7 @@
 
     .sidenav {
         height: 100%;
-        width: 160px;
+        width: 140px;
         position: fixed;
         z-index: 1;
         top: 0;
@@ -22,7 +22,7 @@
     .sidenav a {
         padding: 6px 8px 6px 16px;
         text-decoration: none;
-        font-size: 25px;
+        font-size: 20px;
         color: #000000;
         display: block;
     }
@@ -31,10 +31,28 @@
         color: #f1f1f1;
     }
 
+    .logo-row {
+        width: 100px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        width: 100%;
+        height: 100px;
+        text-align: center;
+    }
+
+    .textboxclass {
+        word-wrap: break-word;
+        word-break: break-all;
+        height: 100px;
+        width: 500px;
+    }
+
     .main {
-        margin-left: 160px; /* Same as the width of the sidenav */
+        margin-left: 140px; /* Same as the width of the sidenav */
         font-size: 20px; /* Increased text to enable scrolling */
-        padding: 0px 10px;
+        padding: 0px 50px;
     }
 
     @media screen and (max-height: 450px) {
@@ -48,15 +66,25 @@
     <link rel="icon" href="https://www.flaticon.com/svg/static/icons/svg/1548/1548285.svg">
 
     <div class="sidenav">
+        <a href="/">Home</a>
         <a href="/SeqGen">Sequence Generator</a>
-        <a href="#GCContent">GC Content</a>
+        <a href="/GCcontent">GC Content</a>
         <a href="#clients">Clients</a>
         <a href="#contact">Contact</a>
     </div>
 
+    <div class = "logo" >
+        <div class="logo-row">
+            <img src="https://www.flaticon.com/svg/static/icons/svg/1548/1548285.svg" alt="logo" class="logo">
+
+        </div>
+    </div>
     <div class="main">
-            {% block MainInfo %}{% endblock MainInfo %}
-            {% block SeqGenInfo %}{% endblock SeqGenInfo %}
+        <h2>Codelix</h2>
+        <p></p>
+        {% block Home %}{% endblock Home %}
+        {% block SeqGen %}{% endblock SeqGen %}
+        {% block GCcontent %}{% endblock GCcontent %}
     </div>
 
 </body>
