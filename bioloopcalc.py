@@ -1,7 +1,6 @@
 """
 This module contains all the functions for the bioloop website
 """
-
 import random
 
 
@@ -28,5 +27,4 @@ def sequencegen(length):
     the user.
     """
     bases = 'ACGT'
-    seq = [random.choice(bases) for i in range(length)]
-    return ''.join(seq)
+    return ''.join([random.choice(bases) for i in range(length)])

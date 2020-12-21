@@ -1,6 +1,7 @@
 """"This is the Flask Python program that runs the HTML
 for the bioloop.life website
 """
+import os
 from flask import Flask, render_template, request
 import bioloopcalc as bio
 
@@ -34,9 +35,13 @@ def input_seq_gen():
         random DNA sequence of the user specified length
     """
     seq_len = request.form['text']
-    seq_len = int(seq_len)
-    new_seq = bio.sequencegen(seq_len)
-    return new_seq
+    if len(seq_len) != 0:
+        seq_len = int(seq_len)
+        if isinstance(seq_len, int) and seq_len <= 10000000:
+            new_seq = bio.sequencegen(seq_len)
+            return render_template('output.html', value=new_seq)
+
+    return render_template('output.html', value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
 
 
 @app.route('/GCcontent')
@@ -51,15 +56,52 @@ def gc_content():
 @app.route('/GCcontent', methods=['POST'])
 def input_gc_content():
     """"This function gets the user input from the
-            GCcontent webpage and passes that input to
-            bio.calculate() so that it can return a
-            random the GC content for the user specified
-            DNA sequence
-        """
+        GCcontent webpage and passes that input to
+        bio.calculate() so that it can return a
+        random the GC content for the user specified
+        DNA sequence
+    """
     seq = request.form['text']
-    upper_seq = seq.upper()
-    gc_val = bio.calculatecg(upper_seq)
-    return gc_val
+    seq = seq.upper()
+    if seq.count('A') > 0 or seq.count('C') > 0 or seq.count('G') > 0 or seq.count('T') > 0:
+        gc_val = bio.calculatecg(seq)
+        return render_template('output.html', value=gc_val)
+    return render_template('output.html', value='ERROR: INVALID INPUT MUST CONTAIN A,C,G AND T')
+
+
+@app.route('/GCcontent', methods=['POST'])
+def file_input_gc_content():
+    """Loading the file fileinput.html template as a result of user
+        input
+    """
+    f = request.files['file']
+    contents = f.read()
+    print(contents)
+
+
+@app.route('/GCcontent/fileinput')
+def fileinput():
+    """"Loading the fileinput.html template
+    """
+    return render_template('fileinput.html')
+
+
+@app.route('/GCcontent/fileinput', methods=['POST'])
+def get_cg_file():
+    """"Getting file input
+    """
+    f = request.files['file']
+    f.save(f.filename)
+    file = open(f.filename, 'r')
+
+    seq = file.read()
+    file.close()
+    os.remove(f.filename)
+
+    if seq.count('A') > 0 or seq.count('C') > 0 or seq.count('G') > 0 or seq.count('T') > 0:
+        cg_val = bio.calculatecg(seq)
+        return render_template('output.html', value=cg_val)
+    return render_template('output.html', value='ERROR: INVALID INPUT MUST CONTAIN A,C,G AND T')
 
 
 if __name__ == '__main__':
