@@ -4,7 +4,6 @@ for the bioloop.life website
 import os
 from flask import Flask, render_template, request
 import bioloopcalc as bio
-
 app = Flask(__name__)
 
 
@@ -41,7 +40,8 @@ def input_seq_gen():
             new_seq = bio.sequencegen(seq_len)
             return render_template('output.html', value=new_seq)
 
-    return render_template('output.html', value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
+    return render_template('output.html',
+                           value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
 
 
 @app.route('/GCcontent')
@@ -69,16 +69,6 @@ def input_gc_content():
     return render_template('output.html', value='ERROR: INVALID INPUT MUST CONTAIN A,C,G AND T')
 
 
-@app.route('/GCcontent', methods=['POST'])
-def file_input_gc_content():
-    """Loading the file fileinput.html template as a result of user
-        input
-    """
-    f = request.files['file']
-    contents = f.read()
-    print(contents)
-
-
 @app.route('/GCcontent/fileinput')
 def fileinput():
     """"Loading the fileinput.html template
@@ -88,8 +78,7 @@ def fileinput():
 
 @app.route('/GCcontent/fileinput', methods=['POST'])
 def get_cg_file():
-    """"Getting file input
-    """
+    """"Getting file input"""
     f = request.files['file']
     f.save(f.filename)
     file = open(f.filename, 'r')
@@ -102,6 +91,25 @@ def get_cg_file():
         cg_val = bio.calculatecg(seq)
         return render_template('output.html', value=cg_val)
     return render_template('output.html', value='ERROR: INVALID INPUT MUST CONTAIN A,C,G AND T')
+
+
+@app.route('/DNAmotif')
+def dna_motif():
+    """"This function renders the dnamorif.html file
+            and states that the websites route '/DNAmotif'
+            is used for the DNAmotif.html
+    """
+    return render_template('DNAmotif.html')
+
+
+@app.route('/DNAmotif', methods=['POST'])
+def input_motif():
+    """Getting the motif and the fasta file
+    """
+    file = request.files['file']
+    motif = request.form.get('text')
+    print(file, motif)
+    return "cock"
 
 
 if __name__ == '__main__':
