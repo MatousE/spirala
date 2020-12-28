@@ -96,20 +96,21 @@ def get_cg_file():
 @app.route('/DNAmotif')
 def dna_motif():
     """"This function renders the dnamorif.html file
-            and states that the websites route '/DNAmotif'
-            is used for the DNAmotif.html
+        and states that the websites route '/DNAmotif'
+        is used for the DNAmotif.html
     """
     return render_template('DNAmotif.html')
 
 
 @app.route('/DNAmotif', methods=['POST'])
 def input_motif():
-    """Getting the motif and the fasta file
+    """Getting the motif and the FASTA file as well as
+        outputting the locations in the FASTA file
     """
     file = request.files['file']
     motif = request.form.get('text')
-    print(file, motif)
-    return "cock"
+    bio.dnamotifsearch(motif, file)
+    return "blanka"
 
 
 if __name__ == '__main__':
