@@ -109,8 +109,8 @@ def input_motif():
     """
     file = request.files['file']
     motif = request.form.get('text')
-    bio.dnamotifsearch(motif, file)
-    return "blanka"
+    motif_occurrences = bio.dnamotifsearch(motif, file)
+    return render_template('output.html', value=motif_occurrences)
 
 
 if __name__ == '__main__':
