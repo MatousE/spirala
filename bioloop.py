@@ -103,14 +103,32 @@ def dna_motif():
 
 
 @app.route('/DNAmotif', methods=['POST'])
-def input_motif():
+def input_dna_motif():
     """Getting the motif and the FASTA file as well as
         outputting the locations in the FASTA file
     """
     file = request.files['file']
     motif = request.form.get('text')
-    motif_occurrences = bio.dnamotifsearch(motif, file)
-    return render_template('output.html', value=motif_occurrences)
+    dna_motif_occurrences = bio.dnamotifsearch(motif, file)
+    return render_template('output.html', value=dna_motif_occurrences)
+
+@app.route('/ProteinMotif')
+def protein_motif():
+    """This function renders the ProteinMotif.html
+        and states that the website route for ProteinMotif
+    """
+    return render_template('ProteinMotif.html')
+
+@app.route('/ProteinMotif', methods=['POST'])
+def input_protein_motif():
+    """Getting the motif and the FASTA file as well
+        as outputting the locations of the motifs within
+        the FASTA file
+    """
+    file = request.files['file']
+    motif = request.form.get('text')
+    protein_motif_occurrences = bio.proteinmotifsearch(motif, file)
+    return render_template('output.html',value=protein_motif_occurrences)
 
 
 if __name__ == '__main__':
