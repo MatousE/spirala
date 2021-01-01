@@ -101,6 +101,9 @@ def dnamotifsearch(motif, file):
 
 
 def proteinmotifsearch(imp, file):
+    """Returns a list of positions within the FASTA file
+        where a user inputted motif has occurred
+    """
     imp = imp.upper()
     instances = []
     if not 'X' in imp:
@@ -228,5 +231,7 @@ def codonusage(file):
 
 
 def sixframetranslation(seq):
-    """"""
+    """Returns a string showing the translation map
+        of a user inputted RNA sequence
+    """
     return six_frame_translations(seq)
