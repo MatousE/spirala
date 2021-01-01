@@ -23,7 +23,7 @@ def seq_gen():
         and states that the websites route '/SeqGen'
         is used for the SeqGen.html
     """
-    return render_template('seqgen.html')
+    return render_template('SeqGen.html')
 
 
 @app.route('/SeqGen', methods=['POST'])
@@ -40,8 +40,7 @@ def input_seq_gen():
             new_seq = bio.sequencegen(seq_len)
             return render_template('output.html', value=new_seq)
 
-    return render_template('output.html',
-                           value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
+    return render_template('output.html',value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
 
 
 @app.route('/GCcontent')
