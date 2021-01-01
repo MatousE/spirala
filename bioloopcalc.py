@@ -7,7 +7,6 @@ from Bio.Seq import Seq
 from Bio import motifs
 from Bio.SeqUtils import six_frame_translations
 import re
-import time
 
 
 def calculatecg(seq):
@@ -229,4 +228,5 @@ def codonusage(file):
 
 
 def sixframetranslation(seq):
+    """"""
     return six_frame_translations(seq)
