@@ -131,5 +131,41 @@ def input_protein_motif():
     return render_template('output.html',value=protein_motif_occurrences)
 
 
+@app.route('/CodonUsage')
+def codon_usage():
+    """This function renders the CodonUsage.html template
+    and states the website route for the tool is /CodonUsage
+    """
+    return render_template('CodonUsage.html')
+
+
+@app.route('/CodonUsage', methods=['POST'])
+def codon_usage_input():
+    """This function takes the file input from the user
+    and outputs the indexes of the codon usages
+    """
+    file = request.files['file']
+    index = bio.codonusage(file)
+    return render_template('output.html',value=index)
+
+
+@app.route('/FrameTranslation')
+def frame_translation():
+    """This function renders the FrameTranslation.html
+    template
+    """
+    return render_template('FrameTranslation.html')
+
+
+@app.route('/FrameTranslation', methods=['POST'])
+def frame_translation_input():
+    """This function takes a sequence input from the user
+    in text format and outputs the six frame translation
+    and the GC content for the sequence
+    """
+    seq = request.form['text']
+    return render_template('output.html', value=bio.sixframetranslation(seq))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

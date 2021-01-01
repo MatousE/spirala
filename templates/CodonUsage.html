@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block CodonUsage %}
+    <h3>Codon Usage</h3>
+    <p>This tool outputs the codon usage of a user inputted sequence. This must
+    be entered in the form of a FASTA file.
+    </p>
+    <form method="POST" enctype="multipart/form-data">
+        <p><input type="file" name="file" accept=".txt"></p>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+{% endblock CodonUsage %}
