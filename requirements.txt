@@ -1,4 +1,4 @@
-flask==1.1.2
-werkzeug==1.0.1
-MarkupSafe==1.1.1
+flask
+werkzeug
+MarkupSafe
 Biopython

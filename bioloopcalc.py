@@ -7,6 +7,7 @@ from Bio.Seq import Seq
 from Bio import motifs
 from Bio.SeqUtils import six_frame_translations
 import re
+import time
 
 
 def calculatecg(seq):
@@ -219,7 +220,6 @@ def codonusage(file):
         codons = synonymous_codons[aa]
 
         for codon in codons:
-            # return_vals.append(f"{aa} {codon} {float(codon_count[codon])} {float(codon_count[codon] / total * 100)}")
             return_vals.append(f"{aa}        {codon}        {float(codon_count[codon])}           {float(codon_count[codon] / total * 100)}")
         return_vals.append("")
 
