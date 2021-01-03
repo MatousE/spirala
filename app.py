@@ -40,7 +40,7 @@ def input_seq_gen():
             new_seq = bio.sequencegen(seq_len)
             return render_template('output.html', value=new_seq)
 
-    return render_template('output.html',value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
+    return render_template('output.html', value='ERROR: INVALID INPUT MUST BE AN INT AND LESS THAN 10000000 BASES')
 
 
 @app.route('/GCcontent')
@@ -111,12 +111,14 @@ def input_dna_motif():
     dna_motif_occurrences = bio.dnamotifsearch(motif, file)
     return render_template('output.html', value=dna_motif_occurrences)
 
+
 @app.route('/ProteinMotif')
 def protein_motif():
     """This function renders the ProteinMotif.html
         and states that the website route for ProteinMotif
     """
     return render_template('ProteinMotif.html')
+
 
 @app.route('/ProteinMotif', methods=['POST'])
 def input_protein_motif():
@@ -127,7 +129,7 @@ def input_protein_motif():
     file = request.files['file']
     motif = request.form.get('text')
     protein_motif_occurrences = bio.proteinmotifsearch(motif, file)
-    return render_template('output.html',value=protein_motif_occurrences)
+    return render_template('output.html', value=protein_motif_occurrences)
 
 
 @app.route('/CodonUsage')
@@ -145,7 +147,7 @@ def codon_usage_input():
     """
     file = request.files['file']
     index = bio.codonusage(file)
-    return render_template('output.html',value=index)
+    return render_template('output.html', value=index)
 
 
 @app.route('/FrameTranslation')
