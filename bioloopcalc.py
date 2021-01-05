@@ -3,10 +3,10 @@ This module contains all the functions for the bioloop website
 """
 import random
 import os
+import re
 from Bio.Seq import Seq
 from Bio import motifs
 from Bio.SeqUtils import six_frame_translations
-import re
 
 
 def calculatecg(seq):
@@ -33,7 +33,7 @@ def sequencegen(length):
     the user.
     """
 
-    return ''.join([random.choice('ACGT') for i in range(length)])
+    return ''.join([random.choice('ACGT') for _ in range(length)])
 
 
 def dnamotifsearch(motif, file):
@@ -46,7 +46,7 @@ def dnamotifsearch(motif, file):
 
     all_motifs = []
     # If the motif has no x's it will by default append the all_motif
-    if not 'X' in motif:
+    if 'X' not in motif:
         all_motifs.append(motif)
     # If the motif has a x will create the possible motifs where x can be
     # A C G T
@@ -72,7 +72,7 @@ def dnamotifsearch(motif, file):
     instances = [Seq(i.strip()) for i in all_motifs]
 
     # Creates instance of Bio.motifs with the given instances
-    m = motifs.create(instances)
+    motifs_instance = motifs.create(instances)
 
     # Temporarily saves the file to the os
     file.save(file.filename)
@@ -88,7 +88,7 @@ def dnamotifsearch(motif, file):
         # Increments the line
         line_no += 1
         # Searching for the instances in the line
-        for pos, seq in m.instances.search(line):
+        for pos, seq in motifs_instance.instances.search(line):
             # Stores the line, position and sequence in motif_occurrences
             motif_occurrences.append(f"Line: {line_no} Position: {pos} Seq: {seq}")
 
@@ -106,7 +106,7 @@ def proteinmotifsearch(imp, file):
     """
     imp = imp.upper()
     instances = []
-    if not 'X' in imp:
+    if 'X' not in imp:
         instances.append(imp.strip())
     else:
         for base in 'G A L M F W K Q E S P V I C Y H R N D T'.split():
@@ -155,7 +155,10 @@ def proteinmotifsearch(imp, file):
 
 
 def codonusage(file):
-
+    """ Counts the codons and its associative
+        amino acid and gives a percentage for
+        that codon
+    """
     codon_dict = {
         "TTT": 0, "TTC": 0, "TTA": 0, "TTG": 0,
         "CTT": 0, "CTC": 0, "CTA": 0, "CTG": 0,
@@ -217,12 +220,12 @@ def codonusage(file):
 
     return_vals = ["AmAcid   Codon    Number   Fraction"]
 
-    for aa in synonymous_codons:
+    for amino_acid in synonymous_codons:
 
-        codons = synonymous_codons[aa]
+        codons = synonymous_codons[amino_acid]
 
         for codon in codons:
-            return_vals.append(f"{aa}        {codon}        {float(codon_count[codon])}           {float(codon_count[codon] / total * 100)}")
+            return_vals.append(f"{amino_acid}        {codon}        {float(codon_count[codon])}           {float(codon_count[codon] / total * 100)}")
         return_vals.append("")
 
     os.remove(file.filename)
@@ -231,7 +234,42 @@ def codonusage(file):
 
 
 def sixframetranslation(seq):
-    """Returns a string showing the translation map
+    """ Returns a string showing the translation map
         of a user inputted RNA sequence
     """
     return six_frame_translations(seq)
+
+
+def cpgisland(file, search_window, search_frame):
+    """ Returns a list of location and gc content of a
+        frame of the given window size
+    """
+    file.save(file.filename)
+
+    cpg_island = []
+
+    with open(file.filename) as handle:
+        data = handle.read()
+
+        start = 0
+        end = search_frame
+        seq = data[:search_window]
+
+        while start <= len(seq)-end:
+            frame = seq[start:end]
+            c_count = frame.count('C')
+            g_count = frame.count('G')
+            cg_count = frame.count('CG')
+    
+            gc_content = float((c_count + g_count) / search_frame)
+            if c_count != 0 and g_count != 0:
+                cpg_ratio = cg_count / ((c_count * g_count) / search_frame)
+            if gc_content >= 0.5 and cpg_ratio >= 0.6:
+                print('shup')
+                cpg_island.append(f"CpG island detected in region {start} to {end} (Obs/Exp = {round(cpg_ratio * 100, 2)} and %GC = {round(gc_content*100, 2)})")
+            start += 1
+            end += 1
+            
+    os.remove(file.filename)
+
+    return cpg_island
