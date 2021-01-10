@@ -176,23 +176,23 @@ def cpg_island():
     return render_template('CpGIsland.html')
 
 
-@app.route('/CpGIsland', methods=['POST'])
-def cpg_island_input():
-    """ This functions takes a file, search window and
-        search frame and goes through sequences in the file
-        searching in the frames for CpG islands
-    """
-    file = request.files['file']
-    search_frame = int(request.form.get('frame'))
-    search_window = int(request.form.get('search_window'))
-    if search_frame < 200 or search_frame > 10000:
-        return render_template('output.html', value='Search frame must be greater than 200 and less than 10,000')
-    if search_window <= 0 or search_window > 5000000:
-        return render_template('output.html', value='Search window must be greater than 0 and less than 5,000,000')
-
-    cpg_islands = bio.cpgisland(file, search_window, search_frame)
-
-    return render_template('output.html',value=cpg_islands)
+# @app.route('/CpGIsland', methods=['POST'])
+# def cpg_island_input():
+#     """ This functions takes a file, search window and
+#         search frame and goes through sequences in the file
+#         searching in the frames for CpG islands
+#     """
+#     file = request.files['file']
+#     search_frame = int(request.form.get('frame'))
+#     search_window = int(request.form.get('search_window'))
+#     if search_frame < 200 or search_frame > 10000:
+#         return render_template('output.html', value='Search frame must be greater than 200 and less than 10,000')
+#     if search_window <= 0 or search_window > 5000000:
+#         return render_template('output.html', value='Search window must be greater than 0 and less than 5,000,000')
+#
+#     cpg_islands = bio.cpgisland(file, search_window, search_frame)
+#
+#     return render_template('output.html',value=cpg_islands)
 
 
 if __name__ == '__main__':
