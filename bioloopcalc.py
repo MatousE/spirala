@@ -260,12 +260,12 @@ def cpgisland(file, search_window, search_frame):
             c_count = frame.count('C')
             g_count = frame.count('G')
             cg_count = frame.count('CG')
-    
+
+            cpg_ratio = 0
             gc_content = float((c_count + g_count) / search_frame)
             if c_count != 0 and g_count != 0:
                 cpg_ratio = cg_count / ((c_count * g_count) / search_frame)
             if gc_content >= 0.5 and cpg_ratio >= 0.6:
-                print('shup')
                 cpg_island.append(f"CpG island detected in region {start} to {end} (Obs/Exp = {round(cpg_ratio * 100, 2)} and %GC = {round(gc_content*100, 2)})")
             start += 1
             end += 1
