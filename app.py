@@ -194,6 +194,13 @@ def cpg_island():
 #
 #     return render_template('output.html',value=cpg_islands)
 
+@app.route('/contact')
+def contact():
+    """ This function renders the contact.html
+        template
+    """
+    return render_template('contact.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
