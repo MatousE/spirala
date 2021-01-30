@@ -2,8 +2,10 @@
 
 {% block DNAmotif %}
     <h3>DNA Motif Search</h3>
-    <p>This searches a user defined motifs inside DNA inputted by the user </p>
-    <p>Where the base is unknown use x</p>
+    <p>This tool searches for user defined motifs in DNA sequence data uploaded as a text file in
+        FASTA format. Where a base can be variable, the letter x should be inserted in the motif
+        sequence.
+    </p>
     <form method="POST" enctype="multipart/form-data">
         <textarea name="text" rows="4" cols="90" wrap="soft"></textarea>
         <p><input type="file" name="file" accept=".txt"></p>

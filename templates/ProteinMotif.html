@@ -2,8 +2,10 @@
 
 {% block ProteinMotif %}
     <h3>Protein Motif Search</h3>
-        <p>This searches a user defined protein motif against a file of proteins defined by the user</p>
-        <p>Where the amino acid is unknown put an X </p>
+        <p>This tool searches for user defined motifs in protein sequence data uploaded as a text file in
+            FASTA format. Where an amino-acid can be variable, the letter x should be inserted in the
+            motif sequence.
+        </p>
         <form method="POST" enctype="multipart/form-data">
                 <textarea name="text" rows="4" cols="90" wrap="soft"></textarea>
                 <p><input type="file" name="file" accept=".txt"></p>
